@@ -64,18 +64,44 @@ background {
 
 {% if declares is defined %}
 {%   for D in declares %}
-#declare {{ D.name }} = {{ D.content.type }} {
-{%     if D.content.type == 'box' %}
-  {{ D.content.corner_1 }}
-  {{ D.content.corner_2 }}
+#declare {{ D.name }} = {% if D.content.type == 'vector' %}{{ D.content.vector }};
+{% endif %}
+{%     if D.content.type == 'polygon' %}
+polygon {
+  {{ D.content.points | length }}{% for P in D.content.points %}, {{ P }}{% endfor %}
+
+}
 {%     endif %}
-{%     if D.content.type == 'plane' %}
-  {{ D.content.normal }}, {{ D.content.distance }}
+{%     if D.content.type == 'object' %}
+object {
+{%     if D.content.union is defined %}
+  union {
+{%       for O in D.content.union %}
+    object{ {{ O }} }
+{%       endfor %}
+  }
 {%       if D.texture is defined %}
   texture { {{ D.texture }} }
 {%       endif %}
 {%     endif %}
+}
+{%     endif %}
+{%     if D.content.type == 'box' %}
+box {
+  {{ D.content.corner_1 }}
+  {{ D.content.corner_2 }}
+}
+{%     endif %}
+{%     if D.content.type == 'plane' %}
+plane {
+  {{ D.content.normal }}, {{ D.content.distance }}
+{%       if D.texture is defined %}
+  texture { {{ D.texture }} }
+{%       endif %}
+}
+{%     endif %}
 {%     if D.content.type == 'texture' %}
+texture {
 {%       if D.content.finish is defined %}
   finish {
 {%         if D.content.finish.ambient is defined %}
@@ -102,8 +128,8 @@ background {
 {%         endif %}
   }
 {%       endif %}
-{%     endif %}
 }
+{%     endif %}
 {%   endfor %}
 {% endif %}
 
