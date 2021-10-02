@@ -1,0 +1,14 @@
+---
+camera:
+  sky:
+    vector: 'z*1'
+  direction:
+    vector: 'x*-1'
+  right:
+    vector: 'x*(-{{ width }}/{{ height }})'
+  location:
+    vector: '<30.0, 10.0, 10.0>'
+  look_at:
+    vector: '0.0'
+  angle: '8.0'
+...

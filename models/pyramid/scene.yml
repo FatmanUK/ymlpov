@@ -1,0 +1,82 @@
+---
+declares:
+- name: 'p1'
+  content:
+    type: 'vector'
+    vector: 'x*1'
+- name: 'p2'
+  content:
+    type: 'vector'
+    vector: 'y*1'
+- name: 'p3'
+  content:
+    type: 'vector'
+    vector: 'x*-1'
+- name: 'p4'
+  content:
+    type: 'vector'
+    vector: 'y*-1'
+- name: 'p5'
+  content:
+    type: 'vector'
+    vector: 'z*1'
+- name: 'f1'
+  content:
+    type: 'polygon'
+    points:
+    - 'p1'
+    - 'p2'
+    - 'p4'
+    - 'p3'
+    - 'p1'
+- name: 'f2'
+  content:
+    type: 'polygon'
+    points:
+    - 'p1'
+    - 'p2'
+    - 'p5'
+    - 'p1'
+- name: 'f3'
+  content:
+    type: 'polygon'
+    points:
+    - 'p2'
+    - 'p3'
+    - 'p5'
+    - 'p2'
+- name: 'f4'
+  content:
+    type: 'polygon'
+    points:
+    - 'p3'
+    - 'p4'
+    - 'p5'
+    - 'p3'
+- name: 'f5'
+  content:
+    type: 'polygon'
+    points:
+    - 'p4'
+    - 'p1'
+    - 'p5'
+    - 'p4'
+- name: 'mypyramid'
+  content:
+    type: 'object'
+    union:
+    - 'f1'
+    - 'f2'
+    - 'f3'
+    - 'f4'
+    - 'f5'
+  texture: 'T_Stone1'
+
+scene:
+- type: 'plane'
+  normal: 'z*1'
+  distance: '0.0'
+  texture: 'T_Silver_3A'
+- type: 'object'
+  object: 'mypyramid'
+...
