@@ -9,6 +9,6 @@ camera:
   location:
     vector: '<30.0, 10.0, 1.5>'
   look_at:
-    vector: '0'
-  angle: '30.0'
+    vector: '0.0'
+  angle: '25.0'
 ...
