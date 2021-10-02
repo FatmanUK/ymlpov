@@ -1,0 +1,9 @@
+---
+includes:
+- 'colors'
+- 'glass'
+- 'golds'
+- 'metals'
+- 'stones'
+- 'woods'
+...

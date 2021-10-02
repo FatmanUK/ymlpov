@@ -1,0 +1,29 @@
+---
+declares:
+- name: 'mirror1'
+  content:
+    type: 'plane'
+    normal: '<-1.0, 1.0, 0.0>'
+    distance: '1.0'
+  texture: 'T_Silver_1C'
+- name: 'mirror2'
+  content:
+    type: 'plane'
+    normal: '<-1.0, -1.0, 0.0>'
+    distance: '1.0'
+  texture: 'T_Silver_1C'
+
+scene:
+- type: 'plane'
+  normal: 'z*1'
+  distance: '0.0'
+  texture: 'T_Stone24'
+- type: 'object'
+  object: 'mirror1'
+- type: 'object'
+  object: 'mirror2'
+- type: 'sphere'
+  location: 'z*0.5'
+  threshold: '0.5'
+  texture: 'T_Stone1'
+...
