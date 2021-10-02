@@ -1,0 +1,31 @@
+---
+# Import includes
+- name: 'Import "{{ pov_model }}" includes'
+  include_vars:
+    dir: '{{ pov_path }}/{{ pov_model }}'
+
+# Template in povfile
+- name: 'Import povray template'
+  template:
+    src: '../templates/template.pov.j2'
+    dest: '{{ pov_input }}'
+
+# Render image
+- name: 'Run povray'
+  register: povray_command
+  command:
+    argv:
+    - '{{ command }}'
+    - '{{ display }}'
+    - '{{ output }}'
+    - '{{ quality }}'
+    - '{{ antialiasing }}'
+    - '{{ resolution }}'
+    - '{{ pov_input }}'
+
+# Save image
+- name: 'Output to file: {{ pov_output }}'
+  copy:
+    content: '{{ povray_command.stdout }}'
+    dest: '../pics/{{ pov_output }}'
+...

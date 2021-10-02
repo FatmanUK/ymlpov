@@ -1,0 +1,34 @@
+---
+# on laptop anyway, edit /etc/povray/3.7/povray.ini:File_Gamma=0.85
+- name: 'Render povray images from yml files'
+  hosts: 'localhost'
+  connection: 'local'
+  vars:
+    command: '/bin/povray'
+    width: '1920'
+    height: '1080'
+    output: '+O-'
+    display: '-D'
+    quality: '+Q9'
+    antialiasing: '+AM2 +A0.1'
+    resolution: '+W{{ width }} +H{{ height }}'
+    pov_path: '/home/fatman/ymlpov/models'
+  tasks:
+    - name: 'Empty pics directory'
+      loop:
+      - 'absent'
+      - 'directory'
+      file:
+        path: 'pics'
+        state: '{{ item }}'
+    - name: 'Loop over models'
+      loop_control:
+        label: '{{ item.path }}'
+      when: '"/" not in item.path'
+      with_filetree: '{{ pov_path }}'
+      vars:
+        pov_input: '/tmp/{{ pov_model }}.pov'
+        pov_model: '{{ item.path }}'
+        pov_output: '{{ pov_model }}.png'
+      include_tasks: 'loop.yml'
+...
