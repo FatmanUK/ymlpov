@@ -1,0 +1,8 @@
+---
+lights:
+- location:
+    x:      10.0
+    y:     -10.0
+    z:      20.0
+  color: White*2
+...
