@@ -1,0 +1,33 @@
+---
+declares:
+- name: 'mycube'
+  content:
+    type: 'box'
+    corner_1: '<0.0, 0.0, 0.0>'
+    corner_2: '<1.0, 1.0, 1.0>'
+
+scene:
+- type: 'plane'
+  normal: 'z*-1'
+  distance: '0.0'
+  texture: 'T_Silver_1A'
+- type: 'object'
+  object: 'mycube'
+  texture: 'T_Stone32'
+- type: 'object'
+  object: 'mycube'
+  translate: 'x*1'
+  texture: 'T_Stone32'
+- type: 'object'
+  object: 'mycube'
+  translate: 'y*1'
+  texture: 'T_Stone32'
+- type: 'object'
+  object: 'mycube'
+  translate: 'y*2'
+  texture: 'T_Stone32'
+- type: 'object'
+  object: 'mycube'
+  translate: '<0.0, 1.0, 1.0>'
+  texture: 'T_Stone32'
+...
