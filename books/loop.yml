@@ -16,16 +16,17 @@
   command:
     argv:
     - '{{ command }}'
-    - '{{ display }}'
-    - '{{ output }}'
-    - '{{ quality }}'
-    - '{{ antialiasing }}'
-    - '{{ resolution }}'
+    - '{{ display | default("+D") }}'
+    - '{{ output | default("+O-") }}'
+    - '{{ quality | default("+Q3") }}'
+    - '{{ antialiasing | default("") }}'
+    - '+W{{ width }} +H{{ height }}'
     - '{{ pov_input }}'
+    - '{{ extra | default("") }}'
 
 # Save image
 - name: 'Output to file: {{ pov_output }}'
   copy:
     content: '{{ povray_command.stdout }}'
-    dest: '../pics/{{ pov_output }}'
+    dest: '../{{ image_path }}/{{ pov_output }}'
 ...

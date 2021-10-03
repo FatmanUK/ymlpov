@@ -1,5 +1,4 @@
 #!/bin/env bash
-
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -12,6 +11,7 @@ PLAYBOOK=${PLAYBOOK:-$(readlink -f "${DIR}/books/build.yml")}
 export ANSIBLE_INVENTORY="${ANSIBLE_INVENTORY:-$(readlink -f "${DIR}/ventory")}"
 
 ansible-playbook \
+-e "qual='low'" \
+-e "extra='$@'" \
 -l "${DEV_HOSTS}" \
-"$@" \
 "${PLAYBOOK}"

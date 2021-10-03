@@ -1,0 +1,5 @@
+---
+command: '/bin/povray'
+pov_path: '/home/fatman/ymlpov/models'
+image_directory_prefix: 'pics'
+...
