@@ -35,11 +35,11 @@ declares:
 - name: 'prism2'
   content:
     type: 'vector'
-    vector: '<0.5, 0.866, 0.0>'
+    vector: '<0.5, sqrt(3.0)/2.0, 0.0>'
 - name: 'prism3'
   content:
     type: 'vector'
-    vector: '<-0.5, 0.866, 0.0>'
+    vector: '<-0.5, sqrt(3.0)/2.0, 0.0>'
 - name: 'prism4'
   content:
     type: 'vector'
@@ -47,11 +47,11 @@ declares:
 - name: 'prism5'
   content:
     type: 'vector'
-    vector: '<-0.5, -0.866, 0.0>'
+    vector: '<-0.5, -sqrt(3.0)/2.0, 0.0>'
 - name: 'prism6'
   content:
     type: 'vector'
-    vector: '<0.5, -0.866, 0.0>'
+    vector: '<0.5, -sqrt(3.0)/2.0, 0.0>'
 - name: 'prism7'
   content:
     type: 'vector'
@@ -59,11 +59,11 @@ declares:
 - name: 'prism8'
   content:
     type: 'vector'
-    vector: '<0.5, 0.866, 0.0>'
+    vector: '<0.5, sqrt(3.0)/2.0, 1.0>'
 - name: 'prism9'
   content:
     type: 'vector'
-    vector: '<-0.5, 0.866, 0.0>'
+    vector: '<-0.5, sqrt(3.0)/2.0, 1.0>'
 - name: 'prism10'
   content:
     type: 'vector'
@@ -71,11 +71,11 @@ declares:
 - name: 'prism11'
   content:
     type: 'vector'
-    vector: '<-0.5, -0.866, 0.0>'
+    vector: '<-0.5, -sqrt(3.0)/2.0, 1.0>'
 - name: 'prism12'
   content:
     type: 'vector'
-    vector: '<0.5, -0.866, 0.0>'
+    vector: '<0.5, -sqrt(3.0)/2.0, 1.0>'
 
 scene:
 - type: 'plane'
@@ -104,7 +104,7 @@ scene:
   texture: 'T_Stone3'
   open: yes
 - type: 'cylinder'
-  end_1: '<4.0, 0.0, 0.0>'
+  end_1: 'x*4'
   end_2: '<4.0, 0.0, 1.0>'
   radius: '1.0'
   texture: 'T_Stone4'
@@ -227,6 +227,6 @@ scene:
     - 'prism12'
     - 'prism6'
   texture: 'T_Stone7'
-  scale: '1.5'
+  scale: '3.0/2.0'
   translate: '<6.0, -2.0, 0.0>'
 ...
