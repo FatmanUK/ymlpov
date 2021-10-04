@@ -1,0 +1,46 @@
+---
+declares:
+- name: 'plane1'
+  content:
+    type: 'plane'
+    normal: '<1.0, 1.0, 1.0>'
+    distance: '1.0'
+- name: 'plane2'
+  content:
+    type: 'plane'
+    normal: '<1.0, -1.0, 1.0>'
+    distance: '1.0'
+- name: 'plane3'
+  content:
+    type: 'plane'
+    normal: '<-1.0, 1.0, 1.0>'
+    distance: '1.0'
+- name: 'plane4'
+  content:
+    type: 'plane'
+    normal: '<-1.0, -1.0, 1.0>'
+    distance: '1.0'
+- name: 'plane5'
+  content:
+    type: 'plane'
+    normal: 'z*-1'
+    distance: '0.0'
+- name: 'mypyramid'
+  content:
+    type: 'object'
+    intersection:
+    - 'plane1'
+    - 'plane2'
+    - 'plane3'
+    - 'plane4'
+    - 'plane5'
+  texture: 'T_Stone1'
+
+scene:
+- type: 'plane'
+  normal: 'z*1'
+  distance: '0.0'
+  texture: 'T_Silver_3A'
+- type: 'object'
+  object: 'mypyramid'
+...
