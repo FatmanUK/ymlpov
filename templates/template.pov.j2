@@ -149,6 +149,13 @@ texture {
 {%     if O.type == 'object' %}
   {{ O.object }}
 {%     endif %}
+{%     if O.type == 'union' %}
+{%       for O2 in O.content %}
+{%         if O2.type == 'polygon' %}
+  polygon { {{ O2.points | length }}{% for P in O2.points %}, {{ P }}{% endfor %} }
+{%         endif %}
+{%       endfor %}
+{%     endif %}
 {%     if O.type == 'plane' %}
   {{ O.normal }}, {{ O.distance }}
 {%     endif %}
@@ -167,11 +174,14 @@ texture {
   {{ O.end_1 }}, {{ O.end_2 }}, {{ O.radius }}
   {% if (O.open | default(False)) %}open{% endif %}
 {%     endif %}
-{%     if O.translate is defined %}
-  translate {{ O.translate }}
-{%     endif %}
 {%     if O.texture is defined %}
   texture { {{ O.texture }} }
+{%     endif %}
+{%     if O.scale is defined %}
+  scale {{ O.scale }}
+{%     endif %}
+{%     if O.translate is defined %}
+  translate {{ O.translate }}
 {%     endif %}
 {%     if O.interior is defined %}
   interior { {{ O.interior }} }
