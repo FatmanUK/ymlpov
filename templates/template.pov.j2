@@ -154,6 +154,28 @@ texture {
 {%         if O2.type == 'polygon' %}
   polygon { {{ O2.points | length }}{% for P in O2.points %}, {{ P }}{% endfor %} }
 {%         endif %}
+{%         if O2.type == 'cylinder' %}
+  cylinder {
+    {{ O2.end_1 }}, {{ O2.end_2 }},
+    {{ O2.radius }}
+{%           if O2.texture is defined %}
+    texture { {{ O2.texture }} }
+{%           endif %}
+  }
+{%         endif %}
+{%       endfor %}
+{%     endif %}
+{%     if O.type == 'intersection' %}
+{%       for O2 in O.content %}
+{%         if O2.type == 'cylinder' %}
+  cylinder {
+    {{ O2.end_1 }}, {{ O2.end_2 }},
+    {{ O2.radius }}
+{%           if O2.texture is defined %}
+    texture { {{ O2.texture }} }
+{%           endif %}
+  }
+{%         endif %}
 {%       endfor %}
 {%     endif %}
 {%     if O.type == 'plane' %}
