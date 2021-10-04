@@ -1,0 +1,6 @@
+---
+lights:
+- location:
+    vector: '<10.0, -4.0, 10.0>'
+  color: 'White*2'
+...
