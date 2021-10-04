@@ -74,16 +74,23 @@ polygon {
 {%     endif %}
 {%     if D.content.type == 'object' %}
 object {
-{%     if D.content.union is defined %}
+{%       if D.content.union is defined %}
   union {
-{%       for O in D.content.union %}
+{%         for O in D.content.union %}
     object{ {{ O }} }
-{%       endfor %}
+{%         endfor %}
   }
+{%       endif %}
+{%       if D.content.intersection is defined %}
+  intersection {
+{%         for O in D.content.intersection %}
+    object{ {{ O }} }
+{%         endfor %}
+  }
+{%       endif %}
 {%       if D.texture is defined %}
   texture { {{ D.texture }} }
 {%       endif %}
-{%     endif %}
 }
 {%     endif %}
 {%     if D.content.type == 'box' %}
@@ -145,11 +152,20 @@ texture {
 {%     if O.type == 'plane' %}
   {{ O.normal }}, {{ O.distance }}
 {%     endif %}
+{%     if O.type == 'box' %}
+  {{ O.corner_1 }}, {{ O.corner_2 }}
+{%     endif %}
+{%     if O.type == 'cone' %}
+  {{ O.end_1 }}, {{ O.radius_1 }},
+  {{ O.end_2 }}, {{ O.radius_2 }}
+  {% if (O.open | default(False)) %}open{% endif %}
+{%     endif %}
 {%     if O.type == 'sphere' %}
   {{ O.location }}, {{ O.threshold }}
 {%     endif %}
 {%     if O.type == 'cylinder' %}
   {{ O.end_1 }}, {{ O.end_2 }}, {{ O.radius }}
+  {% if (O.open | default(False)) %}open{% endif %}
 {%     endif %}
 {%     if O.translate is defined %}
   translate {{ O.translate }}
