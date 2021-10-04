@@ -2,5 +2,5 @@
 lights:
 - location:
     vector: '<10.0, -10.0, 20.0>'
-  color: White*2
+  color: 'White*2'
 ...
