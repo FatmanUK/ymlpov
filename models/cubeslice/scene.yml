@@ -1,0 +1,23 @@
+---
+declares:
+- name: 'mycube'
+  content:
+    type: 'box'
+    corner_1: '-1.0'
+    corner_2: '1.0'
+  texture: 'T_Wood1'
+- name: 'myplane'
+  content:
+    type: 'plane'
+    normal: '1.0'
+    distance: '0.5'
+  texture: 'T_Wood1'
+
+scene:
+- type: 'intersection'
+  content:
+  - type: 'object'
+    object: 'mycube'
+  - type: 'object'
+    object: 'myplane'
+...
