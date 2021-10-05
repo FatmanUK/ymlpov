@@ -95,8 +95,11 @@ object {
 {%     endif %}
 {%     if D.content.type == 'box' %}
 box {
-  {{ D.content.corner_1 }}
+  {{ D.content.corner_1 }},
   {{ D.content.corner_2 }}
+{%       if D.texture is defined %}
+  texture { {{ D.texture }} }
+{%       endif %}
 }
 {%     endif %}
 {%     if D.content.type == 'plane' %}
@@ -175,6 +178,9 @@ texture {
     texture { {{ O2.texture }} }
 {%           endif %}
   }
+{%         endif %}
+{%         if O2.type == 'object' %}
+    object { {{ O2.object }} }
 {%         endif %}
 {%       endfor %}
 {%     endif %}
