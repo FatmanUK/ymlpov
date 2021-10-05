@@ -1,69 +1,78 @@
-{% if includes is defined %}
-{%   for I in includes %}
+{%- macro m_color(c) -%}
+
+  color {{ c }}
+
+{%- endmacro -%}
+{%- macro m_includes(i) -%}
+
+{%   for I in i %}
 #include "{{ I }}.inc"
 {%   endfor %}
-{% endif %}
 
-{% if camera is defined %}
+{%- endmacro -%}
+{%- macro m_camera(c) -%}
+
 camera {
-{%   if camera.sky is defined %}
-{%     if camera.sky.vector is defined %}
-  sky {{ camera.sky.vector }}
+{%   if c.sky is defined %}
+{%     if c.sky.vector is defined %}
+  sky {{ c.sky.vector }}
 {%     endif %}
 {%   endif %}
-{%   if camera.direction is defined %}
-{%     if camera.direction.vector is defined %}
-  direction {{ camera.direction.vector }}
+{%   if c.direction is defined %}
+{%     if c.direction.vector is defined %}
+  direction {{ c.direction.vector }}
 {%     endif %}
 {%   endif %}
-{%   if camera.right is defined %}
-{%     if camera.right.vector is defined %}
-  right {{ camera.right.vector }}
+{%   if c.right is defined %}
+{%     if c.right.vector is defined %}
+  right {{ c.right.vector }}
 {%     endif %}
 {%   endif %}
-{%   if camera.location is defined %}
-{%     if camera.location.vector is defined %}
-  location {{ camera.location.vector }}
+{%   if c.location is defined %}
+{%     if c.location.vector is defined %}
+  location {{ c.location.vector }}
 {%     endif %}
 {%   endif %}
-{%   if camera.look_at is defined %}
-{%     if camera.look_at.vector is defined %}
-  look_at {{ camera.look_at.vector }}
+{%   if c.look_at is defined %}
+{%     if c.look_at.vector is defined %}
+  look_at {{ c.look_at.vector }}
 {%     endif %}
 {%   endif %}
-{%   if camera.angle is defined %}
-  angle {{ camera.angle }}
+{%   if c.angle is defined %}
+  angle {{ c.angle }}
 {%   endif %}
 }
-{% endif %}
 
-{% if globals is defined %}
+{%- endmacro -%}
+{%- macro m_globals(g) -%}
+
 global_settings {
-{%   for G in globals | dict2items %}
+{%   for G in g | dict2items %}
   {{ G.key }} {{ G.value }}
 {%   endfor %}
 }
-{% endif %}
 
-{% if lights is defined %}
-{%   for L in lights %}
+{%- endmacro -%}
+{%- macro m_light(l) -%}
+
 light_source {
-{%     if L.location.vector is defined %}
-  {{ L.location.vector }}
+{%     if l.location.vector is defined %}
+  {{ l.location.vector }}
 {%     endif %}
-  color {{ L.color }}
+  {{ m_color(l.color) }}
 }
-{%   endfor %}
-{% endif %}
 
-{% if background is defined %}
+{%- endmacro -%}
+{%- macro m_background(b) -%}
+
 background {
-  color {{ background.color }}
+  {{ m_color(b.color) }}
 }
-{% endif %}
 
-{% if declares is defined %}
-{%   for D in declares %}
+{%- endmacro -%}
+{%- macro m_declares(d) -%}
+
+{%   for D in d %}
 #declare {{ D.name }} = {% if D.content.type == 'vector' %}{{ D.content.vector }};
 {% endif %}
 {%     if D.content.type == 'polygon' %}
@@ -134,20 +143,21 @@ texture {
 {%       if D.content.pigment is defined %}
   pigment {
 {%         if D.content.pigment.color is defined %}
-    color {{ D.content.pigment.color }}
+    {{ m_color(D.content.pigment.color) }}
 {%         endif %}
   }
 {%       endif %}
 }
 {%     endif %}
 {%   endfor %}
-{% endif %}
 
-{% if scene is defined %}
-{%   for O in scene %}
+{%- endmacro -%}
+{%- macro m_scene(s) -%}
+
+{%   for O in s %}
 {{ O.type }} {
 {%     if O.type == 'background' %}
-  color {{ O.color }}
+  {{ m_color(O.color) }}
 {%     endif %}
 {%     if O.type == 'object' %}
   {{ O.object }}
@@ -216,4 +226,35 @@ texture {
 {%     endif %}
 }
 {%   endfor %}
+
+{%- endmacro -%}
+
+{% if includes is defined %}
+{{ m_includes(includes) }}
+{% endif %}
+
+{% if camera is defined %}
+{{ m_camera(camera) }}
+{% endif %}
+
+{% if globals is defined %}
+{{ m_globals(globals) }}
+{% endif %}
+
+{% if lights is defined %}
+{%   for L in lights %}
+{{ m_light(L) }}
+{%   endfor %}
+{% endif %}
+
+{% if background is defined %}
+{{ m_background(background) }}
+{% endif %}
+
+{% if declares is defined %}
+{{ m_declares(declares) }}
+{% endif %}
+
+{% if scene is defined %}
+{{ m_scene(scene) }}
 {% endif %}
