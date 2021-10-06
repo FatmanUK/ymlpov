@@ -1,260 +1,193 @@
-{%- macro m_color(c) -%}
+{% macro m_color(c) %}
+color {{ c }}
+{% endmacro -%}
 
-  color {{ c }}
-
-{%- endmacro -%}
-{%- macro m_includes(i) -%}
-
-{%   for I in i %}
+{% macro m_includes() %}
+{% if includes is defined %}
+{%   for I in includes %}
 #include "{{ I }}.inc"
 {%   endfor %}
+{% endif %}
+{% endmacro -%}
 
-{%- endmacro -%}
-{%- macro m_camera(c) -%}
-
+{% macro m_camera() %}
+{% if camera is defined %}
 camera {
-{%   if c.sky is defined %}
-{%     if c.sky.vector is defined %}
-  sky {{ c.sky.vector }}
+{%   if camera.sky is defined %}
+{%     if camera.sky.vector is defined %}
+  sky {{ camera.sky.vector }}
 {%     endif %}
 {%   endif %}
-{%   if c.direction is defined %}
-{%     if c.direction.vector is defined %}
-  direction {{ c.direction.vector }}
+{%   if camera.direction is defined %}
+{%     if camera.direction.vector is defined %}
+  direction {{ camera.direction.vector }}
 {%     endif %}
 {%   endif %}
-{%   if c.right is defined %}
-{%     if c.right.vector is defined %}
-  right {{ c.right.vector }}
+{%   if camera.right is defined %}
+{%     if camera.right.vector is defined %}
+  right {{ camera.right.vector }}
 {%     endif %}
 {%   endif %}
-{%   if c.location is defined %}
-{%     if c.location.vector is defined %}
-  location {{ c.location.vector }}
+{%   if camera.location is defined %}
+{%     if camera.location.vector is defined %}
+  location {{ camera.location.vector }}
 {%     endif %}
 {%   endif %}
-{%   if c.look_at is defined %}
-{%     if c.look_at.vector is defined %}
-  look_at {{ c.look_at.vector }}
+{%   if camera.look_at is defined %}
+{%     if camera.look_at.vector is defined %}
+  look_at {{ camera.look_at.vector }}
 {%     endif %}
 {%   endif %}
-{%   if c.angle is defined %}
-  angle {{ c.angle }}
+{%   if camera.angle is defined %}
+  angle {{ camera.angle }}
 {%   endif %}
 }
+{% endif %}
+{% endmacro -%}
 
-{%- endmacro -%}
-{%- macro m_globals(g) -%}
-
+{% macro m_globals() %}
+{% if globals is defined %}
 global_settings {
-{%   for G in g | dict2items %}
+{%   for G in globals | dict2items %}
   {{ G.key }} {{ G.value }}
 {%   endfor %}
 }
+{% endif %}
+{% endmacro -%}
 
-{%- endmacro -%}
-{%- macro m_light(l) -%}
-
+{% macro m_light() %}
+{% if lights is defined %}
+{%   for l in lights %}
 light_source {
 {%     if l.location.vector is defined %}
   {{ l.location.vector }}
 {%     endif %}
-  {{ m_color(l.color) }}
+  {{ m_color(l.color) -}}
 }
+{%   endfor %}
+{% endif %}
+{% endmacro -%}
 
-{%- endmacro -%}
-{%- macro m_background(b) -%}
-
+{% macro m_background() %}
+{%   if background is defined %}
 background {
-  {{ m_color(b.color) }}
+  {{ m_color(background.color) -}}
 }
+{%   endif %}
+{% endmacro -%}
 
-{%- endmacro -%}
-{%- macro m_declares(d) -%}
+{% macro m_stuff(thing) %}
+{%   if thing.scale is defined %}
+  scale {{ thing.scale }}
+{%   endif %}
+{%   if thing.translate is defined %}
+  translate {{ thing.translate }}
+{%   endif %}
+{%   if thing.texture is defined %}
+  texture {
+    {{ thing.texture }}
+{%     if thing.finish is defined %}
+    finish {
+{%       if thing.finish.ambient is defined %}
+      ambient {{ thing.finish.ambient }}
+{%       endif %}
+{%       if thing.finish.diffuse is defined %}
+      diffuse {{ thing.finish.diffuse }}
+{%       endif %}
+{%       if thing.finish.reflection is defined %}
+      reflection {{ thing.finish.reflection }}
+{%       endif %}
+{%       if thing.finish.specular is defined %}
+      specular {{ thing.finish.specular }}
+{%       endif %}
+{%       if thing.finish.roughness is defined %}
+      roughness {{ thing.finish.roughness }}
+{%       endif %}
+{%       if thing.finish.phong is defined %}
+      phong {{ thing.finish.phong }}
+{%       endif %}
+    }
+{%     endif %}
+  }
+{%   endif %}
+{%   if thing.pigment is defined %}
+  pigment { {{ thing.pigment }} }
+{%   endif %}
+{%     if thing.interior is defined %}
+  interior { {{ thing.interior }} }
+{%     endif %}
+{% endmacro -%}
 
-{%   for D in d %}
-#declare {{ D.name }} = {% if D.content.type == 'vector' %}{{ D.content.vector }};
-{% endif %}
-{%     if D.content.type == 'polygon' %}
-polygon {
-  {{ D.content.points | length }}{% for P in D.content.points %}, {{ P }}{% endfor %}
+{% macro m_thing(thing) %}
+{{ thing.type }} {
+{%   if thing.type == 'plane' %}
+  {{ thing.normal }}, {{ thing.distance }}
+{{ m_stuff(thing) -}}
+{%   endif %}
+{%   if thing.type == 'box' %}
+  {{ thing.corner_1 }}, {{ thing.corner_2 }}
+{{ m_stuff(thing) -}}
+{%   endif %}
+{%   if thing.type == 'sphere' %}
+  {{ thing.location }}, {{ thing.radius }}
+{{ m_stuff(thing) -}}
+{%   endif %}
+{%   if thing.type == 'cone' %}
+  {{ thing.end_1 }}, {{ thing.radius_1 }},
+  {{ thing.end_2 }}, {{ thing.radius_2 }}
+  {% if (thing.open | default(False)) %}open{% endif %}
+{{ m_stuff(thing) -}}
+{%   endif %}
+{%   if thing.type == 'cylinder' %}
+  {{ thing.end_1 }}, {{ thing.end_2 }}, {{ thing.radius }}
+  {% if (thing.open | default(False)) %}open{% endif %}
+{{ m_stuff(thing) -}}
+{%   endif %}
+{%   if thing.type == 'union' %}
+{%     for O in thing.content %}
+  {{ m_thing(O) }}
+{%     endfor %}
+{{ m_stuff(thing) -}}
+{%   endif %}
+{%   if thing.type == 'intersection' %}
+{%     for O in thing.content %}
+  {{ m_thing(O) }}
+{%     endfor %}
+{{ m_stuff(thing) -}}
+{%   endif %}
+{%   if thing.type == 'object' %}
+  {{ thing.object }}
+{{ m_stuff(thing) -}}
+{%   endif %}
+{%   if thing.type == 'polygon' %}
+  {{ thing.points | length }}{% for P in thing.points %}, {{ P }}{% endfor %}
+{{ m_stuff(thing) -}}
+{%   endif %}
+}
+{% endmacro -%}
 
-}
-{%     endif %}
-{%     if D.content.type == 'object' %}
-object {
-{%       if D.content.union is defined %}
-  union {
-{%         for O in D.content.union %}
-    object{ {{ O }} }
-{%         endfor %}
-  }
+{% macro m_declares() %}
+{%   if declares is defined %}
+{%     for D in declares %}
+{%       if D.content.type == 'vector' %}
+#declare {{ D.name }} = {{ D.content.vector }};
+{%       else %}
+#declare {{ D.name }} = {{ m_thing(D.content) }}
 {%       endif %}
-{%       if D.content.intersection is defined %}
-  intersection {
-{%         for O in D.content.intersection %}
-    object{ {{ O }} }
-{%         endfor %}
-  }
-{%       endif %}
-{%       if D.texture is defined %}
-  texture { {{ D.texture }} }
-{%       endif %}
-}
-{%     endif %}
-{%     if D.content.type == 'box' %}
-box {
-  {{ D.content.corner_1 }},
-  {{ D.content.corner_2 }}
-{%       if D.texture is defined %}
-  texture { {{ D.texture }} }
-{%       endif %}
-}
-{%     endif %}
-{%     if D.content.type == 'plane' %}
-plane {
-  {{ D.content.normal }}, {{ D.content.distance }}
-{%       if D.texture is defined %}
-  texture { {{ D.texture }} }
-{%       endif %}
-}
-{%     endif %}
-{%     if D.content.type == 'texture' %}
-texture {
-{%       if D.content.finish is defined %}
-  finish {
-{%         if D.content.finish.ambient is defined %}
-    ambient {{ D.content.finish.ambient }}
-{%         endif %}
-{%         if D.content.finish.diffuse is defined %}
-    diffuse {{ D.content.finish.diffuse }}
-{%         endif %}
-{%         if D.content.finish.reflection is defined %}
-    reflection {{ D.content.finish.reflection }}
-{%         endif %}
-{%         if D.content.finish.specular is defined %}
-    specular {{ D.content.finish.specular }}
-{%         endif %}
-{%         if D.content.finish.roughness is defined %}
-    roughness {{ D.content.finish.roughness }}
-{%         endif %}
-  }
-{%       endif %}
-{%       if D.content.pigment is defined %}
-  pigment {
-{%         if D.content.pigment.color is defined %}
-    {{ m_color(D.content.pigment.color) }}
-{%         endif %}
-  }
-{%       endif %}
-}
-{%     endif %}
+{%     endfor %}
+{%   endif %}
+{% endmacro -%}
+
+{% macro m_scene() %}
+{%   for O in scene %}
+{{ m_thing(O) }}
 {%   endfor %}
+{% endmacro -%}
 
-{%- endmacro -%}
-{%- macro m_scene(s) -%}
-
-{%   for O in s %}
-{{ O.type }} {
-{%     if O.type == 'background' %}
-  {{ m_color(O.color) }}
-{%     endif %}
-{%     if O.type == 'object' %}
-  {{ O.object }}
-{%     endif %}
-{%     if O.type == 'union' %}
-{%       for O2 in O.content %}
-{%         if O2.type == 'polygon' %}
-  polygon { {{ O2.points | length }}{% for P in O2.points %}, {{ P }}{% endfor %} }
-{%         endif %}
-{%         if O2.type == 'cylinder' %}
-  cylinder {
-    {{ O2.end_1 }}, {{ O2.end_2 }},
-    {{ O2.radius }}
-{%           if O2.texture is defined %}
-    texture { {{ O2.texture }} }
-{%           endif %}
-  }
-{%         endif %}
-{%       endfor %}
-{%     endif %}
-{%     if O.type == 'intersection' %}
-{%       for O2 in O.content %}
-{%         if O2.type == 'cylinder' %}
-  cylinder {
-    {{ O2.end_1 }}, {{ O2.end_2 }},
-    {{ O2.radius }}
-{%           if O2.texture is defined %}
-    texture { {{ O2.texture }} }
-{%           endif %}
-  }
-{%         endif %}
-{%         if O2.type == 'object' %}
-    object { {{ O2.object }} }
-{%         endif %}
-{%       endfor %}
-{%     endif %}
-{%     if O.type == 'plane' %}
-  {{ O.normal }}, {{ O.distance }}
-{%     endif %}
-{%     if O.type == 'box' %}
-  {{ O.corner_1 }}, {{ O.corner_2 }}
-{%     endif %}
-{%     if O.type == 'cone' %}
-  {{ O.end_1 }}, {{ O.radius_1 }},
-  {{ O.end_2 }}, {{ O.radius_2 }}
-  {% if (O.open | default(False)) %}open{% endif %}
-{%     endif %}
-{%     if O.type == 'sphere' %}
-  {{ O.location }}, {{ O.threshold }}
-{%     endif %}
-{%     if O.type == 'cylinder' %}
-  {{ O.end_1 }}, {{ O.end_2 }}, {{ O.radius }}
-  {% if (O.open | default(False)) %}open{% endif %}
-{%     endif %}
-{%     if O.texture is defined %}
-  texture { {{ O.texture }} }
-{%     endif %}
-{%     if O.scale is defined %}
-  scale {{ O.scale }}
-{%     endif %}
-{%     if O.translate is defined %}
-  translate {{ O.translate }}
-{%     endif %}
-{%     if O.interior is defined %}
-  interior { {{ O.interior }} }
-{%     endif %}
-}
-{%   endfor %}
-
-{%- endmacro -%}
-
-{% if includes is defined %}
-{{ m_includes(includes) }}
-{% endif %}
-
-{% if camera is defined %}
-{{ m_camera(camera) }}
-{% endif %}
-
-{% if globals is defined %}
-{{ m_globals(globals) }}
-{% endif %}
-
-{% if lights is defined %}
-{%   for L in lights %}
-{{ m_light(L) }}
-{%   endfor %}
-{% endif %}
-
-{% if background is defined %}
-{{ m_background(background) }}
-{% endif %}
-
-{% if declares is defined %}
-{{ m_declares(declares) }}
-{% endif %}
-
-{% if scene is defined %}
-{{ m_scene(scene) }}
-{% endif %}
+{{- m_includes() }}
+{{ m_camera() }}
+{{ m_globals() }}
+{{ m_light() }}
+{{ m_background() }}
+{{ m_declares() }}
+{{ m_scene() -}}
