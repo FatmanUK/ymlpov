@@ -88,7 +88,7 @@ scene:
   texture: 'T_Stone8'
 - type: 'sphere'
   location: '<0.0, -3.0, 1.0>'
-  threshold: '1.0'
+  radius: '1.0'
   texture: 'T_Stone1'
 - type: 'cone'
   end_1: 'y*4'
