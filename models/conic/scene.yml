@@ -1,0 +1,17 @@
+---
+declares: []
+
+scene:
+- type: 'intersection'
+  content:
+  - type: 'cone'
+    end_1: 'z*-2'
+    radius_1: '2.0'
+    end_2: 'z*2'
+    radius_2: '0.0'
+    texture: 'T_Stone1'
+  - type: 'plane'
+    normal: '<0.0, 1.0, 1.0>'
+    distance: '0.7'
+    pigment: 'color Red'
+...
