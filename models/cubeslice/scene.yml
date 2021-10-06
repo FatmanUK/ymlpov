@@ -5,13 +5,13 @@ declares:
     type: 'box'
     corner_1: '-1.0'
     corner_2: '1.0'
-  texture: 'T_Wood1'
+    texture: 'T_Wood1'
 - name: 'myplane'
   content:
     type: 'plane'
     normal: '1.0'
     distance: '0.5'
-  texture: 'T_Wood1'
+    texture: 'T_Wood1'
 
 scene:
 - type: 'intersection'
