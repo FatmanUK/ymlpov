@@ -10,5 +10,5 @@ camera:
     vector: '<10.0, 5.0, 2.0>'
   look_at:
     vector: '0.0'
-  angle: '40.0'
+  angle: '60.0'
 ...
