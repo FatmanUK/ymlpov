@@ -86,40 +86,49 @@ background {
 {%   if thing.texture is defined %}
   texture {
     {{ thing.texture }}
-{%     if thing.finish is defined %}
-    finish {
-{%       if thing.finish.ambient is defined %}
-      ambient {{ thing.finish.ambient }}
-{%       endif %}
-{%       if thing.finish.diffuse is defined %}
-      diffuse {{ thing.finish.diffuse }}
-{%       endif %}
-{%       if thing.finish.reflection is defined %}
-      reflection {{ thing.finish.reflection }}
-{%       endif %}
-{%       if thing.finish.specular is defined %}
-      specular {{ thing.finish.specular }}
-{%       endif %}
-{%       if thing.finish.roughness is defined %}
-      roughness {{ thing.finish.roughness }}
-{%       endif %}
-{%       if thing.finish.phong is defined %}
-      phong {{ thing.finish.phong }}
-{%       endif %}
-    }
-{%     endif %}
   }
 {%   endif %}
 {%   if thing.pigment is defined %}
   pigment { {{ thing.pigment }} }
 {%   endif %}
-{%     if thing.interior is defined %}
+{%   if thing.interior is defined %}
   interior { {{ thing.interior }} }
-{%     endif %}
+{%   endif %}
 {% endmacro -%}
 
 {% macro m_thing(thing) %}
 {{ thing.type }} {
+{%   if thing.type == 'texture' %}
+{%     if thing.finish is defined %}
+  finish {
+{%       if thing.finish.ambient is defined %}
+    ambient {{ thing.finish.ambient }}
+{%       endif %}
+{%       if thing.finish.diffuse is defined %}
+    diffuse {{ thing.finish.diffuse }}
+{%       endif %}
+{%       if thing.finish.reflection is defined %}
+    reflection {{ thing.finish.reflection }}
+{%       endif %}
+{%       if thing.finish.specular is defined %}
+    specular {{ thing.finish.specular }}
+{%       endif %}
+{%       if thing.finish.roughness is defined %}
+    roughness {{ thing.finish.roughness }}
+{%       endif %}
+{%       if thing.finish.phong is defined %}
+    phong {{ thing.finish.phong }}
+{%       endif %}
+  }
+{%     endif %}
+{%     if thing.pigment is defined %}
+  pigment {
+{%       if thing.pigment.color is defined %}
+   color {{ thing.pigment.color }}
+  }
+{%       endif %}
+{%     endif %}
+{%   endif %}
 {%   if thing.type == 'plane' %}
   {{ thing.normal }}, {{ thing.distance }}
 {{ m_stuff(thing) -}}
@@ -143,20 +152,42 @@ background {
   {% if (thing.open | default(False)) %}open{% endif %}
 {{ m_stuff(thing) -}}
 {%   endif %}
+{%   if thing.type == 'difference' %}
+{%     for O in thing.content %}
+{{ m_thing(O) }}
+{%     endfor %}
+{{ m_stuff(thing) -}}
+{%   endif %}
 {%   if thing.type == 'union' %}
 {%     for O in thing.content %}
-  {{ m_thing(O) }}
+{{ m_thing(O) }}
 {%     endfor %}
 {{ m_stuff(thing) -}}
 {%   endif %}
 {%   if thing.type == 'intersection' %}
 {%     for O in thing.content %}
-  {{ m_thing(O) }}
+{{ m_thing(O) }}
 {%     endfor %}
 {{ m_stuff(thing) -}}
 {%   endif %}
 {%   if thing.type == 'object' %}
+{%     if thing.object is defined %}
   {{ thing.object }}
+{%     endif %}
+{%     if thing.union is defined %}
+  union {
+{%       for O in thing.union %}
+{{ m_thing(O) }}
+{%       endfor %}
+  }
+{%     endif %}
+{%     if thing.intersection is defined %}
+  intersection {
+{%       for O in thing.intersection %}
+{{ m_thing(O) }}
+{%       endfor %}
+  }
+{%     endif %}
 {{ m_stuff(thing) -}}
 {%   endif %}
 {%   if thing.type == 'polygon' %}
