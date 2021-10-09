@@ -88,7 +88,13 @@ background {
 {%   endif %}
 {%   if thing.texture is defined %}
   texture {
+{%     if thing.texture is mapping %}
+{%       if thing.texture.pigment is defined %}
+    pigment { {{ thing.texture.pigment }} }
+{%       endif %}
+{%     else %}
     {{ thing.texture }}
+{%     endif %}
   }
 {%   endif %}
 {%   if thing.pigment is defined %}
