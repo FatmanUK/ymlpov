@@ -27,14 +27,19 @@ declares:
     distance: '0.0'
 - name: 'mypyramid'
   content:
-    type: 'object'
-    intersection:
-    - 'plane1'
-    - 'plane2'
-    - 'plane3'
-    - 'plane4'
-    - 'plane5'
-  texture: 'T_Stone1'
+    type: 'intersection'
+    content:
+    - type: 'object'
+      object: 'plane1'
+    - type: 'object'
+      object: 'plane2'
+    - type: 'object'
+      object: 'plane3'
+    - type: 'object'
+      object: 'plane4'
+    - type: 'object'
+      object: 'plane5'
+    texture: 'T_Stone1'
 
 scene:
 - type: 'plane'
