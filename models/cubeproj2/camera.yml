@@ -1,0 +1,10 @@
+---
+camera:
+  right:
+    vector: 'x*(-{{ width }}/{{ height }})'
+  location:
+    vector: '<3.0, 0.0, -6.0>'
+  look_at:
+    vector: '0.0'
+  angle: '80.0'
+...
