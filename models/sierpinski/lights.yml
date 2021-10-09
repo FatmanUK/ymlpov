@@ -1,0 +1,7 @@
+---
+lights:
+- type: 'pointlight'
+  location:
+    vector: 'z*10'
+  color: 'White'
+...
