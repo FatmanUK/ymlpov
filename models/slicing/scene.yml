@@ -1,0 +1,20 @@
+---
+declares: []
+
+scene:
+- type: 'plane'
+  normal: 'z*1'
+  distance: '-1.0'
+  texture: 'T_Stone24'
+- type: 'intersection'
+  content:
+  - type: 'torus'
+    major: '0.8'
+    minor: '0.2'
+    texture: 'T_Silver_1A'
+    rotate: 'x*76'
+  - type: 'plane'
+    normal: 'z*1'
+    distance: '0.0'
+    pigment: 'color Red'
+...
