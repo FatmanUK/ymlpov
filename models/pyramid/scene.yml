@@ -63,14 +63,19 @@ declares:
     - 'p4'
 - name: 'mypyramid'
   content:
-    type: 'object'
-    union:
-    - 'f1'
-    - 'f2'
-    - 'f3'
-    - 'f4'
-    - 'f5'
-  texture: 'T_Stone1'
+    type: 'union'
+    content:
+    - type: 'object'
+      object: 'f1'
+    - type: 'object'
+      object: 'f2'
+    - type: 'object'
+      object: 'f3'
+    - type: 'object'
+      object: 'f4'
+    - type: 'object'
+      object: 'f5'
+    texture: 'T_Stone1'
 
 scene:
 - type: 'plane'
