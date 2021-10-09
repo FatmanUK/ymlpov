@@ -114,7 +114,7 @@ background {
 {% macro m_thing(thing) %}
 {{ thing.type }} {
 {%   if thing.type == 'texture' %}
-{%     if thing.texture is not mapping %}
+{%     if thing.texture is defined and thing.texture is not mapping %}
   {{ thing.texture }}
 {%     endif %}
 {%     if thing.finish is defined %}
@@ -149,6 +149,10 @@ background {
 {%   endif %}
 {%   if thing.type == 'plane' %}
   {{ thing.normal }}, {{ thing.distance }}
+{{ m_stuff(thing) -}}
+{%   endif %}
+{%   if thing.type == 'torus' %}
+  {{ thing.major }}, {{ thing.minor }}
 {{ m_stuff(thing) -}}
 {%   endif %}
 {%   if thing.type == 'box' %}
