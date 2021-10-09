@@ -8,6 +8,6 @@ scene:
   texture: 'T_Silver_3A'
 - type: 'sphere'
   location: 'z*1.5'
-  threshold: '1.0'
+  radius: '1.0'
   texture: 'T_Stone1'
 ...
