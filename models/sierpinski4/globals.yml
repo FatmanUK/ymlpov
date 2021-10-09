@@ -1,0 +1,4 @@
+---
+globals:
+  ambient_light: 'White'
+...

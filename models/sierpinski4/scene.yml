@@ -1,0 +1,55 @@
+---
+declares:
+- name: 'p1'
+  content:
+    type: 'value'
+    value: '<cos(90*pi/180), sin(90*pi/180), 0.0>'
+- name: 'p2'
+  content:
+    type: 'value'
+    value: '<cos(210*pi/180), sin(210*pi/180), 0.0>'
+- name: 'p3'
+  content:
+    type: 'value'
+    value: '<cos(330*pi/180), sin(330*pi/180), 0.0>'
+- name: 'mytriangle'
+  content:
+    type: 'polygon'
+    points:
+    - 'p1'
+    - 'p2'
+    - 'p3'
+    - 'p1'
+    texture:
+      pigment: 'Red'
+- name: 'counter'
+  content:
+    type: 'value'
+    value: '1.0'
+
+scene:
+- type: 'loop'
+  variant: 'while'
+  condition: 'counter < 8'
+  step: 'counter=counter+1'
+  content: []
+#  - type: 'declare'
+#    name: 'mytriangle'
+#    content:
+#      type: 'union'
+#      content:
+#      - type: 'object'
+#        object: 'mytriangle'
+#        scale: '1/2'
+#        translate: '1/2*p1'
+#      - type: 'object'
+#        object: 'mytriangle'
+#        scale: '1/2'
+#        translate: '1/2*p2'
+#      - type: 'object'
+#        object: 'mytriangle'
+#        scale: '1/2'
+#        translate: '1/2*p3'
+- type: 'object'
+  object: 'mytriangle'
+...
