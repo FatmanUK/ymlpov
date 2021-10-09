@@ -80,6 +80,9 @@ background {
 {%   if thing.scale is defined %}
   scale {{ thing.scale }}
 {%   endif %}
+{%   if thing.rotate is defined %}
+  rotate {{ thing.rotate }}
+{%   endif %}
 {%   if thing.translate is defined %}
   translate {{ thing.translate }}
 {%   endif %}
@@ -202,6 +205,8 @@ background {
 {%     for D in declares %}
 {%       if D.content.type == 'vector' %}
 #declare {{ D.name }} = {{ D.content.vector }};
+{%       elif D.content.type == 'value' %}
+#declare {{ D.name }} = {{ D.content.value }};
 {%       else %}
 #declare {{ D.name }} = {{ m_thing(D.content) }}
 {%       endif %}
@@ -211,7 +216,16 @@ background {
 
 {% macro m_scene() %}
 {%   for O in scene %}
+{%     if O.type == 'loop' %}
+#{{ O.variant }} ({{ O.condition }})
+{%       for O2 in O.content %}
+{{ m_thing(O2) }}
+{%       endfor %}
+#declare {{ O.step }};
+#end
+{%     else %}
 {{ m_thing(O) }}
+{%     endif %}
 {%   endfor %}
 {% endmacro -%}
 
