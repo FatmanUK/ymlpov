@@ -1,0 +1,24 @@
+---
+declares:
+- name: 'slab'
+  content:
+    type: 'box'
+    corner_1: '<-1.0, -1.0, 0.0>'
+    corner_2: '<1.0, 1.0, 0.05>'
+    texture: 'T_Gold_1A'
+- name: 'A'
+  content:
+    type: 'value'
+    value: '0'
+
+scene:
+- type: 'loop'
+  variant: 'while'
+  condition: 'A<90'
+  step: 'A=A+1'
+  content:
+  - type: 'object'
+    object: 'slab'
+    rotate: 'z*A'
+    translate: 'z*0.05*A'
+...
