@@ -3,6 +3,7 @@
 - name: 'Import "{{ pov_model }}" includes'
   include_vars:
     dir: '{{ pov_path }}/{{ pov_model }}'
+    files_matching: '^.*\.yml$'
 
 # Template in povfile
 - name: 'Import povray template'
@@ -15,14 +16,14 @@
   register: povray_command
   command:
     argv:
-    - '{{ command }}'
-    - '{{ display | default("+D") }}'
-    - '{{ output | default("+O-") }}'
-    - '{{ quality | default("+Q3") }}'
-    - '{{ antialiasing | default("") }}'
-    - '+W{{ width }} +H{{ height }}'
-    - '{{ pov_input }}'
-    - '{{ extra | default("") }}'
+      - '{{ command }}'
+      - '{{ display | default("+D") }}'
+      - '{{ output | default("+O-") }}'
+      - '{{ quality | default("+Q3") }}'
+      - '{{ antialiasing | default("") }}'
+      - '+W{{ width }} +H{{ height }}'
+      - '{{ pov_input }}'
+      - '{{ extra | default("") }}'
 
 # Save image
 - name: 'Output to file: {{ pov_output }}'

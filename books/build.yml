@@ -6,13 +6,13 @@
   vars:
     image_path: '{{ image_directory_prefix }}-{{ qual }}'
   vars_files:
-  - '../vars/common.yml'
-  - '../vars/{{ qual }}.yml'
+    - '../vars/common.yml'
+    - '../vars/{{ qual }}.yml'
   tasks:
     - name: 'Empty pics directory'
       loop:
-      - 'absent'
-      - 'directory'
+        - 'absent'
+        - 'directory'
       file:
         path: '../{{ image_path }}'
         state: '{{ item }}'
