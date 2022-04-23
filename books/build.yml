@@ -5,21 +5,20 @@
   connection: 'local'
   vars:
     image_path: '{{ image_directory_prefix }}-{{ qual }}'
+    image_files: '{{ lookup("fileglob", "../{{ image_path }}/*.png", wantlist=True) }}'
   vars_files:
     - '../vars/common.yml'
     - '../vars/{{ qual }}.yml'
   tasks:
     - name: 'Empty pics directory'
-      loop:
-        - 'absent'
-        - 'directory'
+      loop: '{{ image_files }}'
       file:
-        path: '../{{ image_path }}'
-        state: '{{ item }}'
+        path: '{{ item }}'
+        state: 'absent'
     - name: 'Output extra vars if present'
-      when: extra is defined
+      when: 'extra is defined'
       debug:
-        var: extra
+        var: 'extra'
     - name: 'Loop over models'
       loop_control:
         label: '{{ item.path }}'
