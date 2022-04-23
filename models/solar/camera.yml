@@ -1,0 +1,18 @@
+---
+camera:
+  right:
+    vector: 'x*(-{{ width }}/{{ height }})'
+  # scene camera
+  location:
+    vector: '0.0'
+  look_at:
+    vector: 'z*10.0'
+  # ===
+  # top camera
+  #location:
+  #  vector: 'y*3000'
+  #look_at:
+  #  vector: '0.0'
+  # ===
+  angle: '30.0'
+...

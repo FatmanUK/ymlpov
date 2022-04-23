@@ -1,0 +1,170 @@
+---
+declares:
+  - name: 'Sol'
+    content:
+      type: 'sphere'
+      radius: '100.0'
+      location: '0.0'
+
+scene:
+  # Skybox --- TODO: load background
+  - type: 'plane'
+    normal: 'z*-1.0'
+    distance: '-1000.0'
+    texture:
+      pigment: 'color Black'
+      finish: 'ambient 1.0'
+
+  # Mercury
+  - type: 'sphere'
+    radius: '4.0'
+    location: '<14.0, -6.0, 80.0>'
+    texture:
+      normal: 'bumps 1 scale 0.2'
+      pigment: 'color Grey'
+      finish: 'ambient 1.0'
+
+  # Venus
+  - type: 'sphere'
+    radius: '7.0'
+    location: '<8.0, -7.0, 100.0>'
+    texture:
+      pigment: 'gradient y turbulence 0.25 color_map {
+      [0.00 color LimeGreen]
+      [0.50 color Green]
+      [1.00 color LimeGreen]
+    } scale 2.0'
+      finish: 'ambient 1.0'
+
+  # Earth
+  - type: 'sphere'
+    radius: '8.0'
+    location: '<0.0, -3.0, 120.0>'
+    texture:
+      pigment: 'color Blue'
+      finish: 'ambient 1.0'
+
+  # Luna
+  - type: 'sphere'
+    radius: '2.0'
+    location: '<-7.0, -6.0, 110.0>'
+    texture:
+      normal: 'bumps 1 rotate 90*x'
+      pigment: 'color White'
+      finish: 'ambient 1.0'
+
+  # Mars
+  - type: 'sphere'
+    radius: '7.5'
+    location: '<-8.0, 5.0, 140.0>'
+    texture:
+      normal: 'bumps 1 scale 2'
+      pigment: 'color Pink'
+      finish: 'ambient 1.0'
+
+  # Kuiper
+  - type: 'difference'
+    content:
+    - type: 'cylinder'
+      end_1: '<0.0, 9.0, 0.0>'
+      end_2: '<0.0, 5.0, 0.0>'
+      radius: '165.0'
+    - type: 'cylinder'
+      end_1: '<0.0, 10.0, 0.0>'
+      end_2: '<0.0, 4.0, 0.0>'
+      radius: '155.0'
+    pigment: 'bumps
+    turbulence 10
+    color_map {
+      [0.00 color Grey transmit 1]
+      [0.35 color Grey transmit 1]
+      [0.50 color Grey]
+      [0.65 color Grey transmit 1]
+      [1.00 color Grey transmit 1]
+    }
+    scale 0.75'
+    finish: 'ambient 1.0'
+# bumps/cells?
+
+  # Jupiter
+  - type: 'sphere'
+    radius: '50.0'
+    location: '<2.0, 44.0, 220.0>'
+    texture:
+      pigment: 'gradient y turbulence 0.25 color_map {
+      [0.00 color Red]
+      [0.50 color Orange]
+      [1.00 color Red]
+    } scale 10.0'
+      finish: 'ambient 1.0'
+
+  # Saturn
+  - type: 'sphere'
+    radius: '25.0'
+    location: '<-50.0, 15.0, 320.0>'
+    texture:
+      pigment: 'gradient y turbulence 0.25 color_map {
+      [0.00 color Yellow]
+      [0.50 color Orange]
+      [1.00 color Yellow]
+    } rotate z*45 scale 15.0'
+      finish: 'ambient 1.0'
+
+  # Rings
+  - type: 'difference'
+    content:
+    - type: 'cylinder'
+      end_1: '<0.0, 0.01, 0.0>'
+      end_2: '<0.0, -0.01, 0.0>'
+      radius: '50.0'
+    - type: 'cylinder'
+      end_1: '<0.0, 0.1, 0.0>'
+      end_2: '<0.0, -0.1, 0.0>'
+      radius: '30.0'
+    rotate: '<-25.0, 10.0, 30.0>'
+    translate: '<-50.0, 15.0, 320.0>'
+    texture: 'T_Silver_1A'
+    pigment: 'color Brown'
+    finish: 'ambient 2.0 diffuse 0.7'
+
+  # Uranus
+  - type: 'sphere'
+    radius: '20.0'
+    location: '<-60.0, -12.0, 400.0>'
+    texture:
+      pigment: 'gradient y turbulence 0.25 color_map {
+      [0.00 color <0.00, 1.00, 0.00>]
+      [0.50 color <0.25, 0.75, 0.25>]
+      [1.00 color <0.00, 1.00, 0.00>]
+    } rotate z*-45 scale 15.0'
+      finish: 'ambient 1.0'
+
+  # More rings
+  - type: 'difference'
+    content:
+    - type: 'cylinder'
+      end_1: '<0.0, 0.01, 0.0>'
+      end_2: '<0.0, -0.01, 0.0>'
+      radius: '30.0'
+    - type: 'cylinder'
+      end_1: '<0.0, 0.1, 0.0>'
+      end_2: '<0.0, -0.1, 0.0>'
+      radius: '25.0'
+    rotate: '<-25.0, 140.0, 120.0>'
+    translate: '<-60.0, -12.0, 400.0>'
+    texture: 'T_Silver_1A'
+    pigment: 'color LightBlue'
+    finish: 'ambient 0.3 diffuse 0.7'
+
+  # Neptune
+  - type: 'sphere'
+    radius: '20.0'
+    location: '<-90.0, -28.0, 460.0>'
+    texture:
+      pigment: 'gradient y turbulence 0.25 color_map {
+      [0.00 color <0.00, 0.00, 1.00>]
+      [0.50 color <0.25, 0.25, 0.75>]
+      [1.00 color <0.00, 0.00, 1.00>]
+    } scale 15.0'
+      finish: 'ambient 1.0'
+...
