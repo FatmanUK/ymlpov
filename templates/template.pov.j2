@@ -63,6 +63,9 @@ light_source {
   {{ l.location.vector }}
 {%     endif %}
   {{ m_color(l.color) -}}
+{%     if l.looks_like is defined %}
+  looks_like { {{ l.looks_like }} }
+{%     endif %}
 }
 {%   endfor %}
 {% endif %}
@@ -97,6 +100,9 @@ background {
 {%     if thing.texture is mapping %}
 {%       if thing.texture.pigment is defined %}
     pigment { {{ thing.texture.pigment }} }
+{%       endif %}
+{%       if thing.texture.normal is defined %}
+    normal { {{ thing.texture.normal }} }
 {%       endif %}
 {%     else %}
     {{ thing.texture }}
@@ -251,7 +257,7 @@ background {
 {{- m_includes() }}
 {{ m_camera() }}
 {{ m_globals() }}
-{{ m_light() }}
 {{ m_background() }}
 {{ m_declares() }}
-{{ m_scene() -}}
+{{ m_scene() }}
+{{ m_light() -}}
