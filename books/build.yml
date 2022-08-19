@@ -11,6 +11,7 @@
     - '../vars/{{ qual }}.yml'
   tasks:
     - name: 'Empty pics directory'
+      when: 'pic is not defined'
       loop: '{{ image_files }}'
       file:
         path: '{{ item }}'
@@ -22,11 +23,22 @@
     - name: 'Loop over models'
       loop_control:
         label: '{{ item.path }}'
-      when: '"/" not in item.path'
+      when: '"/" not in item.path and pic is not defined'
       with_filetree: '{{ pov_path }}'
       vars:
         pov_input: '/tmp/{{ pov_model }}.pov'
         pov_model: '{{ item.path }}'
+        pov_output: '{{ pov_model }}.png'
+      include_tasks: 'loop.yml'
+    - debug:
+        var: 'pov_path'
+    - name: 'Just one model'
+      loop_control:
+        label: '{{ pic }}'
+      when: 'pic is defined'
+      vars:
+        pov_input: '/tmp/{{ pov_model }}.pov'
+        pov_model: '{{ pic }}'
         pov_output: '{{ pov_model }}.png'
       include_tasks: 'loop.yml'
 ...

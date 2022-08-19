@@ -13,7 +13,7 @@
 
 # Render image
 - name: 'Run povray'
-  register: povray_command
+  register: 'povray_command'
   command:
     argv:
       - '{{ command }}'
