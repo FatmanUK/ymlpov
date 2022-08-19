@@ -3,6 +3,6 @@ lights:
 - type: 'pointlight'
   location:
     vector: '<32.0, -105.0, 60.0>'
-  color: 'White'
-  looks_like: 'Sol pigment { color Yellow } texture { T_Silver_1A }'
+  color: 'White*5'
+  looks_like: 'Sol pigment { image_map { jpeg "{{ playbook_dir }}/../models/solar/imagemaps/sunmap.jpg" } scale 200.0 } finish { ambient 1.0 }'
 ...

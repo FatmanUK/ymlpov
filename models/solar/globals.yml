@@ -1,4 +1,5 @@
 ---
 globals:
   ambient_light: 'Yellow'
+  assumed_gamma: '0.5'
 ...
